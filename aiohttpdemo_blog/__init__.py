@@ -2,16 +2,20 @@ import logging
 
 import aiohttp_jinja2
 import jinja2
+import aioredis
+
 from aiohttp import web
 from aiohttp_security import SessionIdentityPolicy
 from aiohttp_security import authorized_userid
 from aiohttp_security import setup as setup_security
 from aiohttp_session import setup as setup_session
 from aiohttp_session.redis_storage import RedisStorage
-import aioredis
+from aiohttp_swagger import setup_swagger
+
+from aiohttpdemo_blog.api.routes import api_setup_routes
 from aiohttpdemo_blog.blog.db_auth import DBAuthorizationPolicy
 from aiohttpdemo_blog.blog.db import init_db
-from aiohttpdemo_blog.blog.routes import setup_routes
+from aiohttpdemo_blog.blog.routes import blog_setup_routes
 from aiohttpdemo_blog.blog.settings import load_config, PACKAGE_NAME
 
 
@@ -40,6 +44,11 @@ async def current_user_ctx_processor(request):
     return {'current_user': {'is_anonymous': is_anonymous}}
 
 
+def setup_routes(app):
+    blog_setup_routes(app=app)
+    api_setup_routes(app=app)
+
+
 async def init_app(config):
 
     app = web.Application()
@@ -64,6 +73,14 @@ async def init_app(config):
         app,
         SessionIdentityPolicy(),
         DBAuthorizationPolicy(db_pool)
+    )
+
+    setup_swagger(
+        app,
+        description="Blog API",
+        title="My Custom Title",
+        api_version="1.0.0",
+        contact="my.custom.contact@example.com",
     )
 
     log.debug(app['config'])
