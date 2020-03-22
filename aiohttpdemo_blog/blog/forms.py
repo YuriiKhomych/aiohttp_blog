@@ -1,5 +1,5 @@
-from aiohttpdemo_blog import db
-from aiohttpdemo_blog.security import (
+from aiohttpdemo_blog.blog import db
+from aiohttpdemo_blog.blog.security import (
     check_password_hash,
     generate_password_hash,
 )

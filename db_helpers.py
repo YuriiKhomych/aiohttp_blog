@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine, MetaData
 
-from aiohttpdemo_blog.db import construct_db_url
-from aiohttpdemo_blog.db import users, posts
-from aiohttpdemo_blog.security import generate_password_hash
-from aiohttpdemo_blog.settings import load_config
+from aiohttpdemo_blog.blog.db import construct_db_url
+from aiohttpdemo_blog.blog.db import users, posts
+from aiohttpdemo_blog.blog.security import generate_password_hash
+from aiohttpdemo_blog.blog.settings import load_config
 
 
 def setup_db(executor_config=None, target_config=None):

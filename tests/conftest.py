@@ -1,7 +1,7 @@
 import pytest
 
-from aiohttpdemo_blog.main import init_app
-from aiohttpdemo_blog.settings import load_config, BASE_DIR
+from aiohttpdemo_blog import init_app
+from aiohttpdemo_blog import load_config, BASE_DIR
 from db_helpers import (
     setup_db, teardown_db,
     create_tables, create_sample_data, drop_tables

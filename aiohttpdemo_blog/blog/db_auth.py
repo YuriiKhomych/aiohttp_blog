@@ -1,6 +1,6 @@
 from aiohttp_security.abc import AbstractAuthorizationPolicy
 
-from aiohttpdemo_blog import db
+from aiohttpdemo_blog.blog import db
 
 
 class DBAuthorizationPolicy(AbstractAuthorizationPolicy):

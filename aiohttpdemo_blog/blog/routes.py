@@ -1,4 +1,4 @@
-from aiohttpdemo_blog.views import index, login, logout, create_post, sign_up
+from aiohttpdemo_blog.blog.views import index, login, logout, create_post, sign_up
 
 
 def setup_routes(app):
