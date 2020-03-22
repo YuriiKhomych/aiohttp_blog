@@ -51,6 +51,11 @@ def construct_db_url(config):
     )
 
 
+async def create_user(conn, data):
+    stmt = users.insert().values(**data)
+    await conn.execute(stmt)
+
+
 async def get_user_by_name(conn, username):
     result = await conn.fetchrow(
         users

@@ -25,3 +25,26 @@ async def validate_login_form(conn, form):
         return None
 
     return 'error'
+
+
+async def validate_sign_up_form(conn, form):
+    fields = [
+        'username',
+        'email',
+        'password',
+        'password_2',
+    ]
+    for field in fields:
+        if not form[field]:
+            return f"{field} is required", {}
+
+    if '@' not in form['email']:
+        return 'Email is not valid', {}
+    if form['password'] != form['password_2']:
+        return 'Passwords are not equal', {}
+    # todo Add check for user existence
+
+    data = {field: form[field] for field in ('username', 'email')}
+    data['password_hash'] = generate_password_hash(form['password'])
+
+    return '', data

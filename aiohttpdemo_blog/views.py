@@ -3,7 +3,8 @@ from aiohttp import web
 from aiohttp_security import remember, forget, authorized_userid
 
 from aiohttpdemo_blog import db
-from aiohttpdemo_blog.forms import validate_login_form
+from aiohttpdemo_blog.db import create_user
+from aiohttpdemo_blog.forms import validate_login_form, validate_sign_up_form
 
 
 def redirect(router, route_name):
@@ -22,6 +23,25 @@ async def index(request):
         posts = await db.get_posts_with_joined_users(conn)
 
     return {'user': current_user, 'posts': posts}
+
+
+@aiohttp_jinja2.template('sign_up.html')
+async def sign_up(request):
+    if request.method == 'POST':
+        form = await request.post()
+
+        async with request.app['db_pool'].acquire() as conn:
+            error, data = await validate_sign_up_form(conn, form)
+
+            if error:
+                return {'error': error}
+            else:
+
+                await create_user(conn=conn, data=data)
+                # todo add ability to auto login
+                raise redirect(request.app.router, 'login')
+
+    return {}
 
 
 @aiohttp_jinja2.template('login.html')
