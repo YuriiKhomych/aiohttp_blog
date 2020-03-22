@@ -1,5 +1,5 @@
-from aiohttpdemo_blog import validate_login_form
-from aiohttpdemo_blog import (
+from aiohttpdemo_blog.blog.forms import validate_login_form
+from aiohttpdemo_blog.blog.security import (
     generate_password_hash,
     check_password_hash
 )
